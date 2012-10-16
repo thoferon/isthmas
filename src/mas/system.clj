@@ -1,5 +1,6 @@
 (ns mas.system
-  (:require [mas.object :as obj]))
+  (:require [mas.object :as obj]
+            [mas.agent  :as ag]))
 
 (def main (atom {:objects   {}
                  :relations #{}}))
@@ -27,3 +28,7 @@
   (let [rels      (:relations system)
         followers (filter #(= (second %) id) rels)]
     (zipmap (map first followers) (map last followers))))
+
+(defn send-message [system-atom recipient-id message-type & args]
+  (let [agent (find-agent @system-atom recipient-id)]
+    (apply (partial send (ag/clj-agent agent) ag/receive system-atom agent message-type) args)))
