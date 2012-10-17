@@ -1,6 +1,4 @@
 (ns mas.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn -main [& args]
+  (println "I'm not able to have any contact with the outer world yet. I feel sad. :-("))
