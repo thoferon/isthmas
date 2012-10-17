@@ -2,9 +2,6 @@
   (:require [mas.object :as obj]
             [mas.agent  :as ag]))
 
-(def main (atom {:objects   {}
-                 :relations #{}}))
-
 (defn add-agent [system new-agent]
   (let [objs (:objects system)
         id   (obj/id new-agent)]

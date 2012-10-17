@@ -17,7 +17,3 @@
 (defmulti receive
   (fn [old-value system-atom agent message-type & args]
     [(kind agent) message-type]))
-
-(defmethod receive [:article :debug]
-  [& args]
-  2)
