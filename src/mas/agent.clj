@@ -1,21 +1,19 @@
 (ns mas.agent
-  (:use [mas.object])
-  (:require [mas.system :as sys]))
+  (:use mas.object))
 
-(deftype Agent [agent-id agent-type]
-  Obj
+(defprotocol AgentProtocol
+  (clj-agent [this] "returns the clojure agent of this agent"))
+
+(deftype Agent [agent-id agent-kind agent-clj-agent]
+  ObjectProtocol
   (id   [this] agent-id)
-  (kind [this] agent-type))
+  (kind [this] agent-kind)
+  AgentProtocol
+  (clj-agent [this] agent-clj-agent))
+
+(defn build-agent [id kind value]
+  (->Agent id kind (agent value)))
 
 (defmulti receive
-  (fn [system-atom agent message-type & args]
+  (fn [old-value system-atom agent message-type & args]
     [(kind agent) message-type]))
-
-(defmethod receive [:article :read]
-  [system-atom article _ [prev & rest]]
-  (swap! system-atom (fn [system]
-                       (let [following    (sys/find-following system (id article))
-                             [_ strength] (first (filter #(= (first %) prev) following))
-                             new-strength (if strength (inc strength) 1)]
-                         (sys/add-relation system (id article) prev new-strength))
-                       )))
