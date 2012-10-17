@@ -2,10 +2,10 @@
   (:require [mas.object :as obj]
             [mas.agent  :as ag]))
 
-(defn add-agent [system new-agent]
+(defn add-object [system new-object]
   (let [objs (:objects system)
-        id   (obj/id new-agent)]
-    (assoc system :objects (assoc objs id new-agent))))
+        id   (obj/id new-object)]
+    (assoc system :objects (assoc objs id new-object))))
 
 (defn add-relation [system from to strength]
   (let [rels		(:relations system)
@@ -13,7 +13,7 @@
         new-relation    [from to strength]]
     (assoc system :relations (set (conj other new-relation)))))
 
-(defn find-agent [system id]
+(defn find-object [system id]
   (get (:objects system) id))
 
 (defn find-following [system id]
@@ -27,5 +27,5 @@
     (zipmap (map first followers) (map last followers))))
 
 (defn send-message [system-atom recipient-id message-type & args]
-  (let [agent (find-agent @system-atom recipient-id)]
+  (let [agent (find-object @system-atom recipient-id)]
     (apply (partial send (ag/clj-agent agent) ag/receive system-atom agent message-type) args)))
