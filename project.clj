@@ -2,5 +2,6 @@
   :description "TODO"
   :url "http://todo.com"
   :dependencies [[org.clojure/clojure "1.4.0"][midje "1.4.0"]]
-  :profiles {:dev {:plugins [[lein-midje "2.0.0-SNAPSHOT"] [jonase/kibit "0.0.4"]]}}
+  :profiles {:dev {:plugins [[lein-midje "2.0.0-SNAPSHOT"]
+                             [jonase/kibit "0.0.4"]]}}
   :main mas.core)

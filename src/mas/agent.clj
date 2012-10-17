@@ -11,7 +11,9 @@
   AgentProtocol
   (clj-agent [this] agent-clj-agent))
 
-(defn build-agent [id kind value]
+(defn build-agent
+  "build-agent builds an instance of Agent. It also creates a clojure agent with the initial value specified."
+  [id kind value]
   (->Agent id kind (agent value)))
 
 (defmulti receive
