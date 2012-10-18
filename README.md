@@ -16,4 +16,4 @@ You are going to need `Leiningen 2.x`. Once Leiningen is installed you can run
 
     lein run
 
-which should launch the application on the port 8080. Just go to http://localhost:8080/ now.
+which should launch the application. Just go to [http://localhost:8888/] now to check if everything is okay.

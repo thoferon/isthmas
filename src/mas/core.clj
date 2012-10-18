@@ -1,4 +1,7 @@
-(ns mas.core)
+(ns mas.core
+  (:use [ring.adapter.jetty]
+        [mas.web.core]))
 
 (defn -main [& args]
-  (println "I'm not able to have any contact with the outer world yet. I feel sad. :-("))
+  (let [system-atom (atom {:objects {} :relations #{}})]
+    (run-jetty (build-handler system-atom) {:port 8888})))
