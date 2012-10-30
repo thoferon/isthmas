@@ -1,5 +1,6 @@
 (ns mas.web.messaging
-  (:use [mas.agents.article])
+  (:use [mas.agents.article]
+        [mas.agents.user])
   (:require [mas.system :as sys]
             [ring.util.codec :as codec]))
 
@@ -12,5 +13,5 @@
           args      (-> params :args codec/url-decode read-string)]
       (if (sys/send-message system-atom recipient type args)
         200
-        404))
+        {:status 404 :body "Agent not found"}))
     (catch Exception e {:status 500 :body (pr-str e)})))
