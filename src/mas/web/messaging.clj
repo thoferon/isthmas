@@ -1,5 +1,5 @@
 (ns mas.web.messaging
-  (:use [mas.article])
+  (:use [mas.agents.article])
   (:require [mas.system :as sys]
             [ring.util.codec :as codec]))
 

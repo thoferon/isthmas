@@ -1,4 +1,4 @@
-(ns mas.article
+(ns mas.agents.article
   (:use [mas.agent])
   (:require [mas.system :as sys]
             [mas.object :as obj]))

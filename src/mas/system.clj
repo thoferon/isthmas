@@ -38,9 +38,8 @@
 (defn send-message
   "finds an object and make its clojure agent `receive` the message"
   [system-atom recipient-id message-type & args]
-  (let [agent (find-object @system-atom recipient-id)]
-    (if agent
-      (do
-        (apply (partial send (ag/clj-agent agent) ag/receive system-atom agent message-type) args)
-        true)
-      false)))
+  (if-let [agent (find-object @system-atom recipient-id)]
+    (do
+      (apply (partial send (ag/clj-agent agent) ag/receive system-atom agent message-type) args)
+      true)
+    false))
