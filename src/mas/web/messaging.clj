@@ -10,6 +10,7 @@
           recipient (-> params :recipient codec/url-decode)
           type      (-> params :type codec/url-decode keyword)
           args      (-> params :args codec/url-decode read-string)]
-      (sys/send-message system-atom recipient type args)
-      200)
+      (if (sys/send-message system-atom recipient type args)
+        200
+        404))
     (catch Exception e {:status 500 :body (pr-str e)})))
