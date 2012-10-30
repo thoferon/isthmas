@@ -1,10 +1,15 @@
 (ns mas.web.messaging
-  (:use [mas.system :as sys]))
+  (:use [mas.article])
+  (:require [mas.system :as sys]
+            [ring.util.codec :as codec]))
 
 (defn handler [system-atom request]
-  (let [qstr      (:query-string request)
-        params    (apply hash-map (flatten (map #(vector (keyword (% 1)) (% 2)) (re-seq #"([^=|^&]+)=([^&]*)" qstr))))
-        recipient (:recipient params)
-        type      (:type params)]
-    (sys/send-message system-atom recipient type ["doi:blah"])
-    200))
+  (try
+    (let [qstr      (:query-string request)
+          params    (apply hash-map (flatten (map #(vector (keyword (% 1)) (% 2)) (re-seq #"([^=|^&]+)=([^&]*)" qstr))))
+          recipient (-> params :recipient codec/url-decode)
+          type      (-> params :type codec/url-decode keyword)
+          args      (-> params :args codec/url-decode read-string)]
+      (sys/send-message system-atom recipient type args)
+      200)
+    (catch Exception e {:status 500 :body (pr-str e)})))
