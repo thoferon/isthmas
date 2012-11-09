@@ -11,14 +11,14 @@
   AgentProtocol
   (clj-agent [this] agent-clj-agent))
 
-(defn- error-handler
+(defn- err-handler
   [& args]
   (prn "agent/error-handler" args))
 
 (defn build-agent
   "build-agent builds an instance of Agent. It also creates a clojure agent with the initial value specified."
   [id kind value]
-  (->Agent id kind (agent value :error-handler error-handler)))
+  (->Agent id kind (agent value :error-handler err-handler)))
 
 (defmulti receive
   (fn [old-value system-atom agent message-type & args]
